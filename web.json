@@ -1,0 +1,6 @@
+
+{
+ "run_list": ["recipe[rest::default]"] 
+/*  "run_list": ["recipe[rest::default]", "recipe[rest::solr]"]*/
+
+}

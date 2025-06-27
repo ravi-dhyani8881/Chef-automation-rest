@@ -1,0 +1,387 @@
+{
+ 
+      "projectName": "ravi",
+      "tables": [
+          {
+              "products": {
+                  "fields": [
+                      {
+                          "name": "id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "supplier_id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "quantity_per_unit",
+                          "type": "String"
+                      },
+                      {
+                          "name": "unit_price",
+                          "type": "String"
+                      },
+                      {
+                          "name": "units_in_stock",
+                          "type": "String"
+                      },
+                      {
+                          "name": "units_on_order",
+                          "type": "String"
+                      },
+                      {
+                          "name": "recorder_level",
+                          "type": "String"
+                      },
+                      {
+                          "name": "discontinued",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": [
+                      {
+                          "table": [
+                              {
+                                  "name": "order_details"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          },
+          {
+              "order_details": {
+                  "fields": [
+                      {
+                          "name": "order_id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "product_id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "unit_price",
+                          "type": "String"
+                      },
+                      {
+                          "name": "quantity",
+                          "type": "String"
+                      },
+                      {
+                          "name": "discount",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": []
+              }
+          },
+          {
+              "suppliers": {
+                  "fields": [
+                      {
+                          "name": "id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "company_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "contact_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "contact_title",
+                          "type": "String"
+                      },
+                      {
+                          "name": "address",
+                          "type": "String"
+                      },
+                      {
+                          "name": "city",
+                          "type": "String"
+                      },
+                      {
+                          "name": "region",
+                          "type": "String"
+                      },
+                      {
+                          "name": "postal_code",
+                          "type": "String"
+                      },
+                      {
+                          "name": "country",
+                          "type": "String"
+                      },
+                      {
+                          "name": "phone",
+                          "type": "String"
+                      },
+                      {
+                          "name": "fax",
+                          "type": "String"
+                      },
+                      {
+                          "name": "homepage",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": [
+                      {
+                          "table": [
+                              {
+                                  "name": "products"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          },
+          {
+              "orders": {
+                  "fields": [
+                      {
+                          "name": "id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "customer_id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "employee_id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "order_date",
+                          "type": "String"
+                      },
+                      {
+                          "name": "required_date",
+                          "type": "String"
+                      },
+                      {
+                          "name": "shipped_date",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_via",
+                          "type": "String"
+                      },
+                      {
+                          "name": "freight",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_address",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_city",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_region",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_postal_code",
+                          "type": "String"
+                      },
+                      {
+                          "name": "ship_country",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": [
+                      {
+                          "table": [
+                              {
+                                  "name": "order_details"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          },
+          {
+              "employees": {
+                  "fields": [
+                      {
+                          "name": "id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "last_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "first_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "title",
+                          "type": "String"
+                      },
+                      {
+                          "name": "title_of_courtesy",
+                          "type": "String"
+                      },
+                      {
+                          "name": "birth_date",
+                          "type": "String"
+                      },
+                      {
+                          "name": "hire_date",
+                          "type": "String"
+                      },
+                      {
+                          "name": "address",
+                          "type": "String"
+                      },
+                      {
+                          "name": "city",
+                          "type": "String"
+                      },
+                      {
+                          "name": "region",
+                          "type": "String"
+                      },
+                      {
+                          "name": "postal_code",
+                          "type": "String"
+                      },
+                      {
+                          "name": "country",
+                          "type": "String"
+                      },
+                      {
+                          "name": "home_phone",
+                          "type": "String"
+                      },
+                      {
+                          "name": "extension",
+                          "type": "String"
+                      },
+                      {
+                          "name": "photo",
+                          "type": "String"
+                      },
+                      {
+                          "name": "notes",
+                          "type": "String"
+                      },
+                      {
+                          "name": "reports_to",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": [
+                      {
+                          "table": [
+                              {
+                                  "name": "orders"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          },
+          {
+              "customers": {
+                  "fields": [
+                      {
+                          "name": "id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "company_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "contact_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "contact_title",
+                          "type": "String"
+                      },
+                      {
+                          "name": "address",
+                          "type": "String"
+                      },
+                      {
+                          "name": "city",
+                          "type": "String"
+                      },
+                      {
+                          "name": "region",
+                          "type": "String"
+                      },
+                      {
+                          "name": "postal_code",
+                          "type": "String"
+                      },
+                      {
+                          "name": "country",
+                          "type": "String"
+                      },
+                      {
+                          "name": "phone",
+                          "type": "String"
+                      },
+                      {
+                          "name": "fax",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": [
+                      {
+                          "table": [
+                              {
+                                  "name": "orders"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          },
+          {
+              "shippers": {
+                  "fields": [
+                      {
+                          "name": "id",
+                          "type": "String"
+                      },
+                      {
+                          "name": "company_name",
+                          "type": "String"
+                      },
+                      {
+                          "name": "phone",
+                          "type": "String"
+                      }
+                  ],
+                  "relations": [
+                      {
+                          "table": [
+                              {
+                                  "name": "orders"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          }
+      ]
+  }

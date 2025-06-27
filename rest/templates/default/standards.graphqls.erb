@@ -1,0 +1,30 @@
+extend type Query {
+ find<%= @table_name %>ByQuery(query: String, start: String, rows: String, filterField: String, filterQuery: String, sort: String, advanceField: String, advanceQuery: String, advance: String, field: String ): <%= @table_name %>Response
+}
+
+type <%= @table_name %>Response {
+  start: String
+  row: String
+  statusCode: Int
+  totalRecords: Int
+  advanced: [Advanced]
+  records: [Records<%= @table_name %>]
+}
+     
+type Records<%= @table_name %> {
+  <% @fields.each do |field| %>
+<%= field['name'] %>: <%= case field['type'].downcase
+                             when 'string' then 'String'
+                             when 'date' then 'DateTime'
+                             when 'int' then 'Integer'
+                             else field['type']
+                           end %>
+<% end %>   
+
+<% @relations.each do |relation| %>
+  <% relation['table'].each do |table| %>
+    find<%= table['name'] %>ByQuery(query: String, start: String, rows: String, filterField: String, filterQuery: String, sort: String, advanceField: String, advanceQuery: String, advance: String, field: String ): <%= table['name'] %>Response
+  <% end %>
+<% end %>
+
+}
