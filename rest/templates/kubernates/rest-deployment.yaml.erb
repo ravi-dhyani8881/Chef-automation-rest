@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: springboot-app
+  name: rest-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: springboot-app
+      app: rest-app
   template:
     metadata:
       labels:
-        app: springboot-app
+        app: rest-app
     spec:
       containers:
-      - name: springboot
+      - name: rest
         image: ravi8881/<%= @organizationID %>-<%= @sub_organization_id %>-<%= @enviroment_id %>-<%= @graph_id %>-graph:<%= @version %>
         ports:
         - containerPort: 8081

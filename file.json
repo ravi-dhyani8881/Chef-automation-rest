@@ -1,6 +1,10 @@
 {
- 
-      "projectName": "ravi",
+            "projectName": "raviproject2",
+            "enviromentID":"ravidevenv",
+            "organizationID":"ravi",
+            "subOrganizationID":"ravisuborg",
+            "graphID":"ravigraphid2",
+            "version":"10.0.0",
       "tables": [
           {
               "products": {
