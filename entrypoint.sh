@@ -42,7 +42,7 @@ if [ -n "$git_status" ]; then
 
     # Push changes using the GitHub token for authentication
     if [ -n "$GITHUB_TOKEN" ]; then
-        git push https://"$GITHUB_TOKEN"@github.com/ravi-dhyani8881/graphql.git "$BRANCH_NAME"
+        git push https://"$GITHUB_TOKEN"@github.com/ravi-dhyani8881/rest.git "$BRANCH_NAME"
     else
         echo "GITHUB_TOKEN is not set. Skipping push."
     fi
