@@ -20,7 +20,7 @@ RUN mkdir -p /var/chef/cookbooks /var/chef/config
 RUN mkdir -p /var/chef/output
 
 # Copy cookbooks to the image
-COPY graphql /var/chef/cookbooks/graphql
+COPY graphql /var/chef/cookbooks/rest
 
 # Copy configuration files to the image
 COPY file.json /var/chef/cookbooks/rest/file.json
@@ -29,7 +29,7 @@ COPY web.json /var/chef/config/web.json
 
 
 # Define environment variables for the repository
-ENV REPO_URL=https://github.com/ravi-dhyani8881/graphql.git
+ENV REPO_URL=https://github.com/ravi-dhyani8881/rest.git
 ENV REPO_DIR=/var/chef/output/
 ENV BRANCH_NAME=main
 
