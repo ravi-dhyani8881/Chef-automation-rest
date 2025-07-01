@@ -20,7 +20,7 @@ RUN mkdir -p /var/chef/cookbooks /var/chef/config
 RUN mkdir -p /var/chef/output
 
 # Copy cookbooks to the image
-COPY graphql /var/chef/cookbooks/rest
+COPY rest /var/chef/cookbooks/rest
 
 # Copy configuration files to the image
 COPY file.json /var/chef/cookbooks/rest/file.json
