@@ -30,22 +30,35 @@ Chef::Log.debug("enviromentID: #{enviromentID.inspect}")
 Chef::Log.debug("graphID: #{graphID.inspect}")
 Chef::Log.debug("version: #{version.inspect}")
 
-installDirectory = "/Users/rdhyani/Desktop/mine/git/Chef-automation-rest/"
+#installDirectory = "/Users/rdhyani/Desktop/mine/git/Chef-automation-rest/"
+installDirectory = "/var/chef/output/"
+
+rootDirectory="gitRepo"
 
 #file_names = JSON.parse(File.read('/Users/ravi.dhyani/Desktop/mine/git/chef/file_names.json'))
 #file_names = JSON.parse(File.read('/Users/ravi.dhyani/Desktop/mine/git/chef/file.json'))
 
+user 'ravi.dhyani' do
+    comment 'User for owning the directory'
+    uid '1001' # Optional, specify the user ID if necessary
+    gid 'users' # Optional, specify the group ID or group name if necessary
+    home '/home/rdhyani'
+    shell '/bin/bash'
+    manage_home true # Creates the home directory if it doesn't exist
+    action :create
+  end
+
 
 [
-  "#{installDirectory}#{projectName}/kubernates",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/model",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/controller",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/external",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/util",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/service",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/solr",
-  "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/validation",
-  "#{installDirectory}#{projectName}/src/main/resources"
+  "#{installDirectory}#{rootDirectory}/#{projectName}/kubernates",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/model",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/controller",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/external",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/util",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/service",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/solr",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/validation",
+  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/resources"
   
 ].each do |dir_path|
   directory dir_path do
@@ -93,7 +106,7 @@ end
   { file: 'kubernates/rest-ingress.yaml', source: 'kubernates/rest-ingress.yaml.erb', vars: { name: 'rdhyani' } },
   { file: 'kubernates/rest-service.yaml', source: 'kubernates/rest-service.yaml.erb', vars: { name: 'rdhyani' } }
 ].each do |t|
-  template "#{installDirectory}#{projectName}/#{t[:file]}" do
+  template "#{installDirectory}#{rootDirectory}/#{projectName}/#{t[:file]}" do
     source t[:source]
     variables t[:vars]
     owner 'rdhyani'
@@ -115,7 +128,7 @@ json_data['tables'].each do |table|
     templates = [
       
       {
-        path: "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/controller/#{key.split('_').map(&:capitalize).join}Controller.java",
+        path: "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/controller/#{key.split('_').map(&:capitalize).join}Controller.java",
         source: 'controller_template.erb',
         vars: {
           file_name: key,
@@ -148,7 +161,7 @@ end
 all_table_names.uniq!
 
 # Step 2: Render a single SolrUrls.java file
-template "#{installDirectory}#{projectName}/src/main/java/com/spring/rest/util/SolrUrls.java" do
+template "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/util/SolrUrls.java" do
   source 'SolrUrls.java.erb'
   variables(
     table_names: all_table_names
