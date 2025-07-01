@@ -42,7 +42,7 @@ user 'ravi.dhyani' do
     comment 'User for owning the directory'
     uid '1001' # Optional, specify the user ID if necessary
     gid 'users' # Optional, specify the group ID or group name if necessary
-    home '/home/rdhyani'
+    home '/home/ravi.dhyani'
     shell '/bin/bash'
     manage_home true # Creates the home directory if it doesn't exist
     action :create
@@ -62,7 +62,7 @@ user 'ravi.dhyani' do
   
 ].each do |dir_path|
   directory dir_path do
-    owner 'rdhyani'
+    owner 'ravi.dhyani'
     mode '0755'
     recursive true
     action :create
@@ -94,7 +94,7 @@ end
 { file: 'src/main/java/com/spring/rest/service/CommonDocumentService.java',     source: 'CommonDocumentService.java.erb' },
 
 { file: 'kubernates/rest-deployment.yaml', source: 'kubernates/rest-deployment.yaml.erb', vars: {
-      name: 'rdhyani',
+      name: 'ravi.dhyani',
       project_name: json_data["subOrganizationID"],
       organizationID: json_data["organizationID"],
       sub_organization_id: json_data["subOrganizationID"],
@@ -109,7 +109,7 @@ end
   template "#{installDirectory}#{rootDirectory}/#{projectName}/#{t[:file]}" do
     source t[:source]
     variables t[:vars]
-    owner 'rdhyani'
+    owner 'ravi.dhyani'
     mode '0644'
   end
 end
