@@ -1,0 +1,20 @@
+package com.spring.rest.util;
+
+public interface SolrUrls {
+	public static String protocol="http";
+			
+	public static String host="localhost";
+			
+	
+    public static String port="8983";
+	public static String context="solr";
+							
+	public static String baseUrl= protocol+"://"+host+":"+port+"/"+context;
+	
+    public static String APIKEY_URL= protocol+"://"+host+":"+port+"/"+context+"/apiKey";
+	
+
+<% @table_names.each do |name| %>
+    public static final String <%= name.upcase %>_URL = baseUrl+"/"+"<%= name %>";
+<% end %>
+}
