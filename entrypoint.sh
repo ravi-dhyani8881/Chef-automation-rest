@@ -16,8 +16,8 @@ if [ ! -f /var/chef/config/web.json ]; then
 fi
 
 # Change to the repository directory
-echo "📦 Changing to repo directory: /var/chef/output/"
-cd /var/chef/output/ || { echo "❌ Failed to cd into /var/chef/output/"; exit 1; }
+echo "📦 Changing to repo directory: /var/chef/output/gitRepo"
+cd /var/chef/output/gitRepo || { echo "❌ Failed to cd into /var/chef/output/gitRepo"; exit 1; }
 
 echo "🔍 Now in directory: $(pwd)"
 ls -la
