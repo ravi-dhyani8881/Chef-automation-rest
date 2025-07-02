@@ -1,54 +1,65 @@
 #!/bin/bash
 
+echo "🔍 Current working directory: $(pwd)"
+echo "📂 Contents:"
+ls -la
+
 # Ensure the configuration directories and files exist
 if [ ! -f /var/chef/config/solo.rb ]; then
-    echo "solo.rb not found!"
+    echo "❌ solo.rb not found in /var/chef/config/"
     exit 1
 fi
 
 if [ ! -f /var/chef/config/web.json ]; then
-    echo "web.json not found!"
+    echo "❌ web.json not found in /var/chef/config/"
     exit 1
 fi
 
-# Run Chef-Solo
-
-
 # Change to the repository directory
-cd /var/chef/output/
+echo "📦 Changing to repo directory: /var/chef/output/"
+cd /var/chef/output/ || { echo "❌ Failed to cd into /var/chef/output/"; exit 1; }
 
-# Configure Git for the current repository
+echo "🔍 Now in directory: $(pwd)"
+ls -la
+
+# Configure Git
+echo "🔧 Configuring git user"
 git config user.email "ravi.dhyani@mulesoft.com"
 git config user.name "ravi-dhyani8881"
 
+echo "🔄 Pulling latest from origin $BRANCH_NAME"
 git pull origin "$BRANCH_NAME"
 
+# Run Chef Solo
+echo "🍽️ Running chef-solo..."
 chef-solo -c /var/chef/config/solo.rb -j /var/chef/config/web.json
 
 # Check for changes
+echo "🔍 Checking for Git changes in: $(pwd)"
 git_status=$(git status --porcelain)
 
 if [ -n "$git_status" ]; then
-    echo "Changes detected, proceeding with git add, commit, and push."
+    echo "✅ Changes detected, preparing to commit."
 
-    # Stage changes
     git fetch origin
     git rebase origin/"$BRANCH_NAME"
-    #git pull origin "$BRANCH_NAME"
-    git add .
 
-    # Commit changes
+    git add .
     git commit -m "Automated commit by Docker container" .
 
-    # Push changes using the GitHub token for authentication
     if [ -n "$GITHUB_TOKEN" ]; then
+        echo "🚀 Pushing changes to GitHub branch $BRANCH_NAME"
         git push https://"$GITHUB_TOKEN"@github.com/ravi-dhyani8881/rest.git "$BRANCH_NAME"
     else
-        echo "GITHUB_TOKEN is not set. Skipping push."
+        echo "⚠️ GITHUB_TOKEN not set. Skipping push."
     fi
 else
-    echo "No changes detected, skipping git add, commit, and push."
+    echo "🟢 No changes detected, nothing to commit."
 fi
 
-# Execute any additional commands passed to the entry point
+# Final directory check
+echo "🔍 Final working directory: $(pwd)"
+ls -la
+
+# Execute any additional commands
 exec "$@"
