@@ -27,8 +27,16 @@ echo "🔧 Configuring git user"
 git config user.email "ravi.dhyani@mulesoft.com"
 git config user.name "ravi-dhyani8881"
 
-echo "🔄 Pulling latest from origin $BRANCH_NAME"
-git pull origin "$BRANCH_NAME"
+# Check if branch exists on remote
+if git ls-remote --exit-code --heads origin "$BRANCH_NAME"; then
+    echo "✅ Remote branch '$BRANCH_NAME' exists. Checking out."
+    git checkout "$BRANCH_NAME"
+    git pull origin "$BRANCH_NAME"
+else
+    echo "🆕 Remote branch '$BRANCH_NAME' does NOT exist. Creating and pushing."
+    git checkout -b "$BRANCH_NAME"
+    git push --set-upstream https://"$GITHUB_TOKEN"@github.com/ravi-dhyani8881/rest.git "$BRANCH_NAME"
+fi
 
 # Run Chef Solo
 echo "🍽️ Running chef-solo..."
