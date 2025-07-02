@@ -30,7 +30,7 @@ COPY web.json /var/chef/config/web.json
 
 # Define environment variables for the repository
 ENV REPO_URL=https://github.com/ravi-dhyani8881/rest.git
-ENV REPO_DIR=/var/chef/output/
+ENV REPO_DIR=/var/chef/output/gitRepo
 ENV BRANCH_NAME=${BRANCH_NAME}
 
 
