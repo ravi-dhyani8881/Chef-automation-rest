@@ -31,7 +31,7 @@ COPY web.json /var/chef/config/web.json
 # Define environment variables for the repository
 ENV REPO_URL=https://github.com/ravi-dhyani8881/rest.git
 ENV REPO_DIR=/var/chef/output/
-ENV BRANCH_NAME=main
+ENV BRANCH_NAME=${BRANCH_NAME}
 
 
 # Clone the repository and checkout the desired branch/commit
