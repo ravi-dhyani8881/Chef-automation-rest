@@ -4,16 +4,16 @@ metadata:
   name: rest-app-<%= @graph_id %>
   namespace: <%= @organizationID %>
   labels:
-    app: rest-<%= @graph_id %>
+    app: rest-app-<%= @graph_id %>
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rest-app<%= @graph_id %>
+      app: rest-app-<%= @graph_id %>
   template:
     metadata:
       labels:
-        app: rest-app<%= @graph_id %>
+        app: rest-app-<%= @graph_id %>
     spec:
       containers:
       - name: rest<%= @graph_id %>
