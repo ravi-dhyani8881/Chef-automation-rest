@@ -1,21 +1,22 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rest-ingress
+  name: rest-ingress-<%= @graph_id %>
+  namespace: <%= @organizationID %>
   annotations:
     ngrok.com/ingress-mode: edge
   labels:
-    app: rest-app
+    app: rest-app-<%= @graph_id %>
 spec:
   ingressClassName: ngrok
   rules:
     - host: honestly-handy-herring.ngrok-free.app
       http:
         paths:
-          - path: /febe-rest/
+          - path: /febe-rest-<%= @graph_id %>/
             pathType: Prefix
             backend:
               service:
-                name: rest-service
+                name: rest-service-<%= @graph_id %>
                 port:
                   number: 80

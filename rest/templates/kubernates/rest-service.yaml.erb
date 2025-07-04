@@ -1,10 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rest-service
+  name: rest-service-<%= @graph_id %>
+  namespace: <%= @organizationID %>
+  labels:
+    app: rest-app-<%= @graph_id %>
 spec:
   selector:
-    app: rest-app
+    app: rest-app-<%= @graph_id %>
   ports:
     - protocol: TCP
       port: 80

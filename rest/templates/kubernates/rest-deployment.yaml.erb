@@ -1,19 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rest-app
+  name: rest-app-<%= @graph_id %>
+  namespace: <%= @organizationID %>
+  labels:
+    app: rest-<%= @graph_id %>
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rest-app
+      app: rest-app<%= @graph_id %>
   template:
     metadata:
       labels:
-        app: rest-app
+        app: rest-app<%= @graph_id %>
     spec:
       containers:
-      - name: rest
+      - name: rest<%= @graph_id %>
         image: ravi8881/<%= @organizationID %>-<%= @sub_organization_id %>-<%= @enviroment_id %>-<%= @graph_id %>-graph:<%= @version %>
         ports:
         - containerPort: 8081
