@@ -15,8 +15,6 @@ json_data = JSON.parse(json_string)
 graph = json_data["tables"]
 
 projectName = json_data["projectName"]
-
-# projectName = json_data["subOrganizationID"]
 organizationID = json_data["organizationID"]
 subOrganizationID = json_data["subOrganizationID"]
 enviromentID = json_data["enviromentID"]
@@ -50,15 +48,15 @@ user 'ravi.dhyani' do
 
 
 [
-  "#{installDirectory}#{rootDirectory}/#{projectName}/kubernates",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/model",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/controller",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/external",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/util",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/service",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/solr",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/validation",
-  "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/resources"
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/kubernates",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/model",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/controller",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/external",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/util",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/service",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/solr",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/validation",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/resources"
   
 ].each do |dir_path|
   directory dir_path do
@@ -122,7 +120,7 @@ end
       version: json_data["version"]
       } }
 ].each do |t|
-  template "#{installDirectory}#{rootDirectory}/#{projectName}/#{t[:file]}" do
+  template "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/#{t[:file]}" do
     source t[:source]
     variables t[:vars]
     owner 'ravi.dhyani'
@@ -144,7 +142,7 @@ json_data['tables'].each do |table|
     templates = [
       
       {
-        path: "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/controller/#{key.split('_').map(&:capitalize).join}Controller.java",
+        path: "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/controller/#{key.split('_').map(&:capitalize).join}Controller.java",
         source: 'controller_template.erb',
         vars: {
           file_name: key,
@@ -177,7 +175,7 @@ end
 all_table_names.uniq!
 
 # Step 2: Render a single SolrUrls.java file
-template "#{installDirectory}#{rootDirectory}/#{projectName}/src/main/java/com/spring/rest/util/SolrUrls.java" do
+template "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/util/SolrUrls.java" do
   source 'SolrUrls.java.erb'
   variables(
     table_names: all_table_names,
