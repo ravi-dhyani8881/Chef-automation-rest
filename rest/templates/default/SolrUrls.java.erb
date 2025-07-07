@@ -7,7 +7,7 @@ public interface SolrUrls {
 			
 	
     public static String port="80";
-	public static String context="solr";
+	public static String context="solr-service-<%= @graph_id %>";
 							
       public static String baseUrl= protocol+"://"+host+":"+port+"/"+context;
 	
