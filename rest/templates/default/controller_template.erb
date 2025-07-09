@@ -33,6 +33,8 @@ import com.spring.rest.util.SolrUrls;
 import com.spring.rest.util.Utility;
 import com.spring.rest.validation.ValidationService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "<%= @file_name.split('_').map(&:capitalize).join  %> Mangment System" , description = "Service used to perform operation on <%= @file_name %>.", tags = "<%= @file_name %>")
 @RestController
