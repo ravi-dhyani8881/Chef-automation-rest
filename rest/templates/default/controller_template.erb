@@ -1,17 +1,23 @@
 package com.spring.rest.controller;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
-
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.ExposesResourceFor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.rest.service.CommonDocumentService;
+import com.spring.rest.util.FacetFieldDTO;
+import com.spring.rest.util.FacetValueDTO;
 import com.spring.rest.util.ResponseMessage;
 import com.spring.rest.util.SolrUrls;
 import com.spring.rest.util.Utility;
 import com.spring.rest.validation.ValidationService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(value = "<%= @file_name.split('_').map(&:capitalize).join  %> Mangment System" , description = "Service used to perform operation on <%= @file_name %>.", tags = "<%= @file_name %>")
 @RestController
@@ -357,6 +363,94 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 	}
 
 
+	@GetMapping("/findByQuery")
+	public  ResponseEntity<ResponseMessage>  advanceSearch(@RequestParam(name = "query", required = true) String query,
+			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
+			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
+			@RequestParam(name = "filterField" ,defaultValue = "" , required = false) String fl ,
+			@RequestParam(name = "filterQuery" ,defaultValue = "" , required = false) String fq ,
+			//default value asc|desc
+			@RequestParam(name = "advanceField" ,defaultValue = "" , required = false) String[] facetField ,
+			@RequestParam(name = "advanceQuery" ,defaultValue = "" , required = false) String facetQuery ,
+			@RequestParam(name = "advance" ,defaultValue = "false" , required = false) String facet ,
+			
+			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
+			HttpServletRequest request, HttpServletResponse response
+			) {
+		
+		List<FacetFieldDTO> advance=null;
+		Map<String, String> searchCriteria=new HashMap<String,String>(); 
+		SolrQuery solrQuery = new SolrQuery();
+		ModifiableSolrParams searchParams = new ModifiableSolrParams();
+	
+		if (facetField != null) {
+            for (String facetFields : facetField) {
+                
+                solrQuery.addFacetField(facetFields);
+              //  searchCriteria.put("facet.field", facetFields);
+            }
+        }		   
+		searchParams.add("q", query);
+		searchParams.add("rows", rows);
+		searchParams.add("start", start);
+		searchParams.add("fl", fl);
+		searchParams.add("fq", fq);
+		searchParams.add("sort", sort);
+	//	searchParams.add("facet.pivot", facetField);
+		
+		searchParams.add("facet.query", facetQuery);
+		searchParams.add("facet", facet);
+	
+	//	solrQuery.addFacetField("try");
+	//	solrQuery.addFacetField("contentType");
+	//	solrQuery.addFacetField("ID");
+		solrQuery.add(searchParams);
+		
+		var requestUri=request.getRequestURI();
+		
+	//	System.out.println("Reuquested Url------>"+requestUri+"------->"+query);
+		
+		int colonIndex = Utility.findNthIndexOf(request.getRequestURI(), '/', 2);
+		
+		var  apiResponse = ((QueryResponse)commonDocumentService.advanceSearchDocumentAndExceptionByTemplate(searchCriteria, url,solrQuery));
+
+        List<FacetField> facetFieldsResponse =  apiResponse.getFacetFields();
+		
+      //  printFacetResults(facetFieldsResponse);
+        
+        if(facet.equals("true")) {
+          advance=facetFieldsResponse.stream().map(this::mapToFacetFieldDTO).collect(Collectors.toList());
+        }
+		//  ResponseMessage successResponse = new ResponseMessage(null, 200,apiResponse.getResults().getNumFound(),apiResponse.getResults(),null,null,null,start,rows,advance);
+		  
+		 ResponseMessage successResponse= new ResponseMessage.Builder("Content added successfully", 200)
+					.withNumFound(apiResponse.getResults().getNumFound())
+					.withDocument(apiResponse.getResults())
+					.withStart(start)
+					.withRow(rows)
+					.withDto(advance)
+					.withResponseType("created")
+					.build();
+		  
+		//  ResponseMessage(String responseMessage, int responseCode, Long numFound, SolrDocumentList document,String iD, String query, String responseType) 
+		 
+		  return new ResponseEntity<>(successResponse, HttpStatus.OK);	
+	}
+	
+	
+	private FacetFieldDTO mapToFacetFieldDTO(FacetField facetField) {
+        FacetFieldDTO facetFieldDTO = new FacetFieldDTO();
+        facetFieldDTO.setFieldName(facetField.getName());
+
+        List<FacetValueDTO> valuesDTO = facetField.getValues().stream()
+                .map(count -> new FacetValueDTO(count.getName(), count.getCount()))
+                .collect(Collectors.toList());
+
+        facetFieldDTO.setValues(valuesDTO);
+
+        return facetFieldDTO;
+    }
+	
 	
 	
 }
