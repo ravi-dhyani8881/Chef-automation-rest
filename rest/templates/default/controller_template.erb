@@ -425,13 +425,13 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
         }
 		//  ResponseMessage successResponse = new ResponseMessage(null, 200,apiResponse.getResults().getNumFound(),apiResponse.getResults(),null,null,null,start,rows,advance);
 		  
-		 ResponseMessage successResponse= new ResponseMessage.Builder("Content added successfully", 200)
+		 ResponseMessage successResponse= new ResponseMessage.Builder(null, 200)
 					.withNumFound(apiResponse.getResults().getNumFound())
 					.withDocument(apiResponse.getResults())
 					.withStart(start)
 					.withRow(rows)
 					.withDto(advance)
-					.withResponseType("created")
+					.withResponseType(null)
 					.build();
 		  
 		//  ResponseMessage(String responseMessage, int responseCode, Long numFound, SolrDocumentList document,String iD, String query, String responseType) 
