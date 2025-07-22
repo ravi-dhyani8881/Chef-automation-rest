@@ -91,6 +91,11 @@ end
 { file: 'src/main/java/com/spring/rest/service/CommonDocumentServiceImpl.java',     source: 'CommonDocumentServiceImpl.java.erb' },
 { file: 'src/main/java/com/spring/rest/service/CommonDocumentService.java',     source: 'CommonDocumentService.java.erb' },
 
+{ file: 'src/main/java/com/spring/rest/ApiAnalyticsFilter.java',     source: 'ApiAnalyticsFilter.java.erb' },
+{ file: 'src/main/java/com/spring/rest/controller/AnalyticsController.java',     source: 'AnalyticsController.java.erb' },
+{ file: 'src/main/java/com/spring/rest/service/EndpointStatsService.java',     source: 'EndpointStatsService.java.erb' },
+
+
 { file: 'kubernates/rest-deployment.yaml', source: 'kubernates/rest-deployment.yaml.erb', vars: {
       name: 'ravi.dhyani',
       project_name: json_data["projectName"],
@@ -167,8 +172,27 @@ end
 all_table_names = []
 
 json_data['tables'].each do |table|
-  table.each do |table_name, _value|
+  table.each do |table_name, value|
     all_table_names << table_name
+
+    next unless value['fields'] # skip if no fields
+
+  class_name = table_name.to_s[0].upcase + table_name.to_s[1, table_name.length]
+
+ file_path = "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/model/#{class_name}.java"
+
+    template file_path do
+          source 'ApiModels.java.erb' # Assuming you have a template file named controller_template.erb
+          variables(
+           # file_name: table_name,
+           file_name: "#{table_name}",
+           
+            fields: value['fields']
+          )
+          action :create # Use :create_if_missing if you only want to create the file if it doesn't exist
+        end
+
+
   end
 end
 

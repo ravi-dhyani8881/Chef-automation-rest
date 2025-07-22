@@ -1,0 +1,18 @@
+package com.spring.rest.model;
+
+public class <%= @file_name.to_s[0].upcase + @file_name.to_s[1, @file_name.length] %> {
+
+<% @fields.each do |field| -%>
+    private String <%= field["name"][0].downcase + field["name"][1, field["name"].length] %>;
+<% end -%>
+
+<% @fields.each do |field| -%>
+    public String get<%= field["name"][0].upcase + field["name"][1, field["name"].length] %>() {
+        return <%= field["name"][0].downcase + field["name"][1, field["name"].length] %>;
+    }
+
+    public void set<%= field["name"][0].upcase + field["name"][1, field["name"].length] %>(String <%= field["name"][0].downcase + field["name"][1, field["name"].length] %>) {
+        this.<%= field["name"][0].downcase + field["name"][1, field["name"].length] %> = <%= field["name"][0].downcase + field["name"][1, field["name"].length] %>;
+    }
+<% end -%>
+    }
