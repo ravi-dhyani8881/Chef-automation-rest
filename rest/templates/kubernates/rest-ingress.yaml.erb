@@ -3,14 +3,12 @@ kind: Ingress
 metadata:
   name: rest-ingress-<%= @graph_id %>
   namespace: <%= @organizationID %>
-  annotations:
-    ngrok.com/ingress-mode: edge
   labels:
     app: rest-app-<%= @graph_id %>
 spec:
   ingressClassName: nginx
   rules:
-    - host: honestly-handy-herring.ngrok-free.app
+    - host: <%= @ID %>
       http:
         paths:
           - path: /febe-rest-<%= @graph_id %>/
