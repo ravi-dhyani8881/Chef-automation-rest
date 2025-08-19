@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: <%= @ID %>
+    - host: <%= @ID %>.local
       http:
         paths:
           - path: /febe-rest-<%= @graph_id %>/
