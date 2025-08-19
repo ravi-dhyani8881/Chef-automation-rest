@@ -107,7 +107,8 @@ end
     }
   },
   { file: 'kubernates/rest-ingress.yaml', source: 'kubernates/rest-ingress.yaml.erb', vars: { 
-    name: 'ravi.dhyani',
+      ID: json_data["ID"],
+      name: 'ravi.dhyani',
       project_name: json_data["projectName"],
       organizationID: json_data["organizationID"],
       sub_organization_id: json_data["subOrganizationID"],
