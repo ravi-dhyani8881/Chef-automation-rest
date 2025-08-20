@@ -205,6 +205,7 @@ all_table_names.uniq!
 template "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/util/SolrUrls.java" do
   source 'SolrUrls.java.erb'
   variables(
+    ID: json_data["ID"]
     table_names: all_table_names,
     graph_id: json_data["graphID"]
   )
