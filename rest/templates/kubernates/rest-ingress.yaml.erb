@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rest-ingress-<%= @graph_id %>
+  name: rest-ingress-<%= @ID %>
   namespace: <%= @organizationID %>
   labels:
-    app: rest-app-<%= @graph_id %>
+    app: rest-app-<%= @ID %>
 spec:
   ingressClassName: nginx
   rules:
     - host: <%= @ID %>.k8s
       http:
         paths:
-          - path: /febe-rest-<%= @graph_id %>/
+          - path: /febe-rest-<%= @ID %>/
             pathType: Prefix
             backend:
               service:
-                name: rest-service-<%= @graph_id %>
+                name: rest-service-<%= @ID %>
                 port:
                   number: 80
