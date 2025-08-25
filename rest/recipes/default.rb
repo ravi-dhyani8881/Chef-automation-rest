@@ -6,6 +6,7 @@
 
 # Read the contents of the JSON file as a string
 #json_string = File.read('/Users/rdhyani/Desktop/mine/git/Chef-automation-rest/file.json')
+Chef::Mixin::Template::TemplateContext.send(:include, Rest::HelperFunctions)
 json_string = File.read('/var/chef/cookbooks/rest/file.json')
 
 # Parse the JSON string into a Ruby hash
