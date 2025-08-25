@@ -157,23 +157,20 @@ public class SolrConnectionImpl implements SolrConnection {
 	}
 
 	@Override
-	public <T> T advanceSerachByTemplate(String solrUrl, Map<String, String> searchCriteria) {
+	public <T> T advanceSerachByTemplate(String solrUrl, Map<String, String[]> searchCriteria) {
 		QueryResponse response=null;
 		HttpSolrClient solr=Utility.getSolrClient(solrUrl);
 		
 	//	final Map<String, String> queryParamMap = new HashMap<String, String>();
 		// queryParamMap.put("q", query);
 		// queryParamMap.put("fl", "id, name");
-		MapSolrParams queryParams = new MapSolrParams(searchCriteria);
-		
+	//	MapSolrParams queryParams = new MapSolrParams(searchCriteria);
+		MultiMapSolrParams queryParams = new MultiMapSolrParams(searchCriteria);
 		try {	
 		response=solr.query(queryParams);
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
-			
-			 
 			throw new CustomException5xx("Internal server Issue" , e.getCause()); 
-			
 		}
 		return (T) response;
 	}

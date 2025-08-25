@@ -97,6 +97,7 @@ end
 
 
 { file: 'kubernates/rest-deployment.yaml', source: 'kubernates/rest-deployment.yaml.erb', vars: {
+      ID: json_data["ID"],
       name: 'ravi.dhyani',
       project_name: json_data["projectName"],
       organizationID: json_data["organizationID"],
@@ -107,7 +108,9 @@ end
     }
   },
   { file: 'kubernates/rest-ingress.yaml', source: 'kubernates/rest-ingress.yaml.erb', vars: { 
-    name: 'ravi.dhyani',
+      ID: json_data["ID"],
+      domain: json_data["domain"],
+      name: 'ravi.dhyani',
       project_name: json_data["projectName"],
       organizationID: json_data["organizationID"],
       sub_organization_id: json_data["subOrganizationID"],
@@ -116,7 +119,8 @@ end
       version: json_data["version"]
      } },
   { file: 'kubernates/rest-service.yaml', source: 'kubernates/rest-service.yaml.erb', vars: {
-     name: 'ravi.dhyani',
+      ID: json_data["ID"],
+      name: 'ravi.dhyani',
       project_name: json_data["projectName"],
       organizationID: json_data["organizationID"],
       sub_organization_id: json_data["subOrganizationID"],
@@ -202,6 +206,7 @@ all_table_names.uniq!
 template "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/util/SolrUrls.java" do
   source 'SolrUrls.java.erb'
   variables(
+    ID: json_data["ID"],
     table_names: all_table_names,
     graph_id: json_data["graphID"]
   )

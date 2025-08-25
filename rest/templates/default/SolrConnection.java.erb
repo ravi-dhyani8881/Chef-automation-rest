@@ -32,7 +32,7 @@ public interface SolrConnection {
 
 	
 	// Advance search by template 
-	public <T> T advanceSerachByTemplate(String solrUrl, Map<String, String> searchCriteria);
+	public <T> T advanceSerachByTemplate(String solrUrl, Map<String, String[]> searchCriteria);
 	
 	public <T> T addDocumentByTemplate(String solrUrl, SolrInputDocument document);
 	

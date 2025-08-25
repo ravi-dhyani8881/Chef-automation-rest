@@ -3,7 +3,7 @@ package com.spring.rest.util;
 public interface SolrUrls {
 	public static String protocol="http";
 			
-	public static String host="solr-service-<%= @graph_id %>";
+	public static String host="solr-service-<%= @ID %>";
 			
 	
     public static String port="80";
@@ -11,7 +11,7 @@ public interface SolrUrls {
 							
       public static String baseUrl= protocol+"://"+host+":"+port+"/"+context;
 	
- //   public static String APIKEY_URL= protocol+"://"+host+":"+port+"/"+context+"/apiKey";
+    public static String APIKEY_URL= protocol+"://"+host+":"+port+"/"+context+"/apiKey";
 	
 
 <% @table_names.each do |name| %>
