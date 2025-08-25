@@ -59,7 +59,7 @@ public class CommonDocumentServiceImpl implements CommonDocumentService{
 	}
 
 	@Override
-	public <T> T advanceSearchDocumentByTemplate(Map<String, String> searchCriteria, String url) {
+	public <T> T advanceSearchDocumentByTemplate(Map<String, String[]> searchCriteria, String url) {
 		return solrConnection.advanceSerachByTemplate(url, searchCriteria);
 	}
 	@Override

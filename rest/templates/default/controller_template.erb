@@ -174,7 +174,7 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,
-			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String fq ,
+			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
 			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
@@ -189,7 +189,7 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 		
 		
 		if(validationService.validateApiKey(apiKey, userId) == 500 )
-		{	
+			{	
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		//	return model.addAttribute("Message", new ResponseMessage("Server down Internal server error", 500));
 			return model.addAttribute("Message", new ResponseMessage.Builder("Server down Internal server error", 500).build());
@@ -202,13 +202,13 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 			
 		}else {
 	//		query=Utility.getQuery(query, userId);
-			Map<String, String> searchCriteria=new HashMap<String,String>(); 
-			searchCriteria.put("q", query);
-			searchCriteria.put("rows", rows);
-			searchCriteria.put("start", start);
-			searchCriteria.put("fl", fl);
+			Map<String, String[]> searchCriteria=new HashMap<>(); 
+			searchCriteria.put("q", new String[] { query });
+			searchCriteria.put("rows", new String[] { rows });
+			searchCriteria.put("start", new String[] { start });
+			searchCriteria.put("fl", new String[] { fl });
 			searchCriteria.put("fq", fq);
-			searchCriteria.put("sort", sort);
+			searchCriteria.put("sort", new String[] { sort });
 			
 			 apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
 			 if(apiResponse instanceof Exception )
@@ -238,7 +238,7 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "fl" ,defaultValue = "" , required = false) String fl ,
-			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String fq ,
+			@RequestParam(name = "fq" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "sort" ,defaultValue = "" , required = false) String sort,
 			@RequestHeader(name="X-API-Key", required=true) String apiKey ,
@@ -264,13 +264,13 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 			return model.addAttribute("Message", new ResponseMessage.Builder("Invalid Api Key", 401).build());
 		}else {
 			query=Utility.getQuery(query, userId);
-			Map<String, String> searchCriteria=new HashMap<String,String>(); 
-			searchCriteria.put("q", query);
-			searchCriteria.put("rows", rows);
-			searchCriteria.put("start", start);
-			searchCriteria.put("fl", fl);
+			Map<String, String[]> searchCriteria=new HashMap<>(); 
+			searchCriteria.put("q", new String[] { query });
+			searchCriteria.put("rows", new String[] {  rows });
+			searchCriteria.put("start", new String[] { start });
+			searchCriteria.put("fl", new String[] { fl });
 			searchCriteria.put("fq", fq);
-			searchCriteria.put("sort", sort);
+			searchCriteria.put("sort", new String[] { sort });
 			
 			 apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);
 			 if(apiResponse instanceof Exception )
@@ -370,7 +370,7 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 			@RequestParam(name = "rows",  defaultValue = "8", required = false) String rows ,
 			@RequestParam(name = "start",defaultValue = "0", required = false) String start,
 			@RequestParam(name = "filterField" ,defaultValue = "" , required = false) String fl ,
-			@RequestParam(name = "filterQuery" ,defaultValue = "" , required = false) String fq ,
+			@RequestParam(name = "filterQuery" ,defaultValue = "" , required = false) String[] fq ,
 			//default value asc|desc
 			@RequestParam(name = "advanceField" ,defaultValue = "" , required = false) String[] facetField ,
 			@RequestParam(name = "advanceQuery" ,defaultValue = "" , required = false) String facetQuery ,
@@ -381,7 +381,7 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
 			) {
 		
 		List<FacetFieldDTO> advance=null;
-		Map<String, String> searchCriteria=new HashMap<String,String>(); 
+		Map<String, String[]> searchCriteria=new HashMap<>(); 
 		SolrQuery solrQuery = new SolrQuery();
 		ModifiableSolrParams searchParams = new ModifiableSolrParams();
 	
@@ -392,16 +392,16 @@ public class <%= @file_name.split('_').map(&:capitalize).join  %>Controller {
               //  searchCriteria.put("facet.field", facetFields);
             }
         }		   
-		searchParams.add("q", query);
-		searchParams.add("rows", rows);
-		searchParams.add("start", start);
-		searchParams.add("fl", fl);
+		searchParams.add("q", new String[] { query });
+		searchParams.add("rows", new String[] { rows });
+		searchParams.add("start", new String[] { start });
+		searchParams.add("fl", new String[] { fl });
 		searchParams.add("fq", fq);
-		searchParams.add("sort", sort);
+		searchParams.add("sort", new String[] { sort });
 	//	searchParams.add("facet.pivot", facetField);
 		
-		searchParams.add("facet.query", facetQuery);
-		searchParams.add("facet", facet);
+		searchParams.add("facet.query", new String[] { facetQuery });
+		searchParams.add("facet", new String[] { facet });
 	
 	//	solrQuery.addFacetField("try");
 	//	solrQuery.addFacetField("contentType");
