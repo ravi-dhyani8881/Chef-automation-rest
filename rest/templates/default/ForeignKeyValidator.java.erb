@@ -1,0 +1,108 @@
+package com.spring.rest.custom;
+
+
+
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+
+import org.springframework.stereotype.Component;
+
+import com.spring.rest.service.CommonDocumentService;
+import com.spring.rest.util.SolrUrls;
+import com.spring.rest.util.Utility;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+@Component // Make it a Spring component so it can be autowired
+public class ForeignKeyValidator implements ConstraintValidator<ForeignKey, Object > {
+
+ @Autowired
+ private ApplicationContext applicationContext; // To get repository beans dynamically
+ 
+ @Autowired
+ CommonDocumentService commonDocumentService;
+	
+ String url=SolrUrls.ORGANIZATION_URL;
+
+ private Class<?> entityClass;
+ private String fieldName;
+ private String collectionName; // To store the Solr collection name
+
+ Object apiResponse=null;
+ @Override
+ public void initialize(ForeignKey constraintAnnotation) {
+	 this.collectionName = constraintAnnotation.collectionName();
+	 this.fieldName=constraintAnnotation.fieldName();
+     
+	    System.out.println("------ForeignKeyValidator----initialize---->"+collectionName+"------>"+fieldName);
+	    
+	 
+ }
+
+ @Override
+ public boolean isValid(Object value, ConstraintValidatorContext context) {
+	// this.collectionName = context.collectionName();
+	 
+     if (value == null) {
+         // If the foreign key itself is null, it's typically valid
+         // unless the field is also marked with @NotNull.
+         // If you want to enforce that a null FK is invalid,
+         // also add @NotNull on the field in your POJO.
+    	 
+    	 System.out.println("------ForeignKeyValidator----isValid---->");
+
+         return true;
+     }
+
+     try {
+         // Dynamically find the appropriate JpaRepository for the entityClass
+         // This is a generic way; you might have specific repositories
+         // e.g., OrganizationRepository.class
+        
+ 		System.out.println("try");
+         // Check if an entity with the given ID exists
+         // This assumes the fieldName refers to the primary key of the target entity
+        
+		System.out.println("DEBUG: SolrForeignKeyValidator received value: " + value.toString()+"--------->"+ this.collectionName);
+		
+		String query=this.fieldName+ ":"+value.toString();
+		Map<String, String> searchCriteria=new HashMap<String,String>(); 
+		
+		searchCriteria.put("q", query);
+		searchCriteria.put("rows", "1");
+		searchCriteria.put("start", "0");
+		
+		searchCriteria.put("fl", "");
+		searchCriteria.put("fq", "");
+		searchCriteria.put("sort", "");
+		
+		apiResponse = commonDocumentService.advanceSearchDocumentByTemplate(searchCriteria, url);		
+		
+		((QueryResponse) apiResponse).getResults().size();
+		
+		System.out.println("yes---------->"+((QueryResponse) apiResponse).getResults().size());
+		
+		
+		SolrDocument solrDocument = ((QueryResponse) apiResponse).getResults().get(0);
+		
+		if (((QueryResponse) apiResponse).getResults().size()>0)
+		
+         return true;
+		else {
+		return false;	
+		}
+
+     } catch (Exception e) {
+         // Log the exception, but return false to indicate validation failure
+         System.err.println("Error during foreign key validation for value: " + value + " - " + e.getMessage());
+         return false;
+     }
+ }
+}

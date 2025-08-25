@@ -57,7 +57,8 @@ user 'ravi.dhyani' do
   "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/solr",
   "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/validation",
   "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/resources"
-  
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/exception",
+  "#{installDirectory}#{rootDirectory}/#{subOrganizationID}/#{enviromentID}/#{graphID}/#{projectName}/src/main/java/com/spring/rest/custom"
 ].each do |dir_path|
   directory dir_path do
     owner 'ravi.dhyani'
@@ -94,6 +95,13 @@ end
 { file: 'src/main/java/com/spring/rest/ApiAnalyticsFilter.java',     source: 'ApiAnalyticsFilter.java.erb' },
 { file: 'src/main/java/com/spring/rest/controller/AnalyticsController.java',     source: 'AnalyticsController.java.erb' },
 { file: 'src/main/java/com/spring/rest/service/EndpointStatsService.java',     source: 'EndpointStatsService.java.erb' },
+
+{ file: 'src/main/java/com/spring/rest/util/FieldErrorDetail.java',     source: 'FieldErrorDetail.java.erb' },
+{ file: 'src/main/java/com/spring/rest/exception/GlobalExceptionHandler.java',     source: 'GlobalExceptionHandler.java.erb' },
+{ file: 'src/main/java/com/spring/rest/custom/ForeignKey.java',     source: 'ForeignKey.java.erb' },
+{ file: 'src/main/java/com/spring/rest/custom/ForeignKeys.java',     source: 'ForeignKeys.java.erb' },
+{ file: 'src/main/java/com/spring/rest/custom/ForeignKeysValidator.java',     source: 'ForeignKeysValidator.java.erb' },
+{ file: 'src/main/java/com/spring/rest/custom/ForeignKeyValidator.java',     source: 'ForeignKeyValidator.java.erb' },
 
 
 { file: 'kubernates/rest-deployment.yaml', source: 'kubernates/rest-deployment.yaml.erb', vars: {
@@ -195,8 +203,6 @@ json_data['tables'].each do |table|
           )
           action :create # Use :create_if_missing if you only want to create the file if it doesn't exist
         end
-
-
   end
 end
 
